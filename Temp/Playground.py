@@ -19,6 +19,9 @@ def normalize_phone(phone_number):
         # Remove all non-digit characters except leading +
         cleaned = re.sub(r"[^0-9+]", "", phone_number)
 
+        
+        print("Нормалізований номер телефону", cleaned)
+
         # Ensure it starts with +38
         if cleaned.startswith("00"):
                 cleaned = "+" + cleaned[2:]
