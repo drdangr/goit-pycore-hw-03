@@ -62,7 +62,6 @@ def get_upcoming_birthdays(users):
 
     return upcoming_birthdays
 
-#if __name__ == "__main__":
 
 upcoming_birthdays = get_upcoming_birthdays(users)
 
