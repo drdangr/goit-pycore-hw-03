@@ -46,7 +46,7 @@ def get_upcoming_birthdays(users):
         # Create a birthday date for the current year, handling leap years
         birthday_this_year = place_birthday_in_year(birthday, current_year)
         
-        # If the birthday has already occurred this year, use next year
+        # If the birthday has already occurred this year, use next year, handling leap years
         if birthday_this_year < today:
             birthday_this_year = place_birthday_in_year(birthday, current_year + 1)
         
