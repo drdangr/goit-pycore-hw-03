@@ -18,8 +18,8 @@ def get_numbers_ticket(min, max, quantity):
    
     numbers = random.sample(range(min, max + 1), quantity) 
     numbers.sort()
-    
+
     return numbers
 
 
-print("Your lottery numbers are:", get_numbers_ticket(1, 50, 5))
+print("Your lottery numbers are:", get_numbers_ticket(1, 49, 6))

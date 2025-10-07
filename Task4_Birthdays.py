@@ -18,33 +18,37 @@ def get_upcoming_birthdays(users):
    
 
     def adjust_birthday_to_monday(birthday: date) -> date:
-        # weekday(): 0=понедельник, 5=суббота, 6=воскресенье
+        # weekday(): 0=Mon ... 5=Sat, 6=Sun
         weekday = birthday.weekday()
 
-        if weekday == 5:      # суббота
+        if weekday == 5:      # saturday
             return birthday + timedelta(days=2)
-        elif weekday == 6:    # воскресенье
+        elif weekday == 6:    # sunday
             return birthday + timedelta(days=1)
-        else:                 # остальные дни
+        else:                 # rest days
             return birthday
+        
+    #utility function to handle leap year birthdays    
+    def place_birthday_in_year(birth: date, year: int) -> date:
+        try:
+            return birth.replace(year=year)
+        except ValueError:
+            if birth.month == 2 and birth.day == 29:
+                return date(year, 2, 28)
+            else:
+                raise
     
-
+    #work with each user
     for user in users:
         # get date object from birthday string
         birthday = datetime.strptime(user["birthday"], "%Y.%m.%d").date()
 
         # Create a birthday date for the current year, handling leap years
-        try:
-            birthday_this_year = birthday.replace(year=current_year)
-        except ValueError:
-            if birthday.month == 2 and birthday.day == 29:
-                birthday_this_year = date(current_year, 2, 28)
-            else:
-                raise
-
+        birthday_this_year = place_birthday_in_year(birthday, current_year)
+        
         # If the birthday has already occurred this year, use next year
         if birthday_this_year < today:
-            birthday_this_year = birthday_this_year.replace(year=current_year + 1)
+            birthday_this_year = place_birthday_in_year(birthday, current_year + 1)
         
         # Calculate days until birthday
         days_until_birthday = (birthday_this_year - today).days
