@@ -1,20 +1,23 @@
+import random
+
 def get_numbers_ticket(min, max, quantity):
-    import random
+    
         
-    if min >= max:
-        raise ValueError("Minimum must be less than maximum.")
-    if quantity > (max - min + 1):
-        raise ValueError("Quantity exceeds the range of unique numbers available.")
+    # Перевірка типів даних
+    if not all(isinstance(i, int) for i in [min_value, max_value, quantity]):
+        return []
+
+    # Перевірка значень
+    if min_value >= max_value:
+        return []
     if quantity <= 0:
-        raise ValueError("Quantity must be a positive integer.")
-    if min < 0 or max < 0:
-        raise ValueError("Min and Max must be non-negative integers.")
-    if not all(isinstance(i, int) for i in [min, max, quantity]):
-        raise TypeError("Min, Max, and Quantity must be integers.")
-    if max > 1000:
-        raise ValueError("Max value should not exceed 1000.")
-    if min < 1:
-        raise ValueError("Min value should be more 1")
+        return []
+    if quantity > (max_value - min_value + 1):
+        return []
+    if min_value < 1 or max_value < 1:
+        return []
+    if max_value > 1000:
+        return []
    
     numbers = random.sample(range(min, max + 1), quantity) 
     numbers.sort()
@@ -22,4 +25,9 @@ def get_numbers_ticket(min, max, quantity):
     return numbers
 
 
-print("Your lottery numbers are:", get_numbers_ticket(1, 49, 6))
+# --- приклади ---
+print(get_numbers_ticket(1, 49, 6))      #  → [3, 15, 22, 28, 37, 44] (наприклад)
+print(get_numbers_ticket(-10, 10, 5))    #  → []
+print(get_numbers_ticket(1000, 1200, 10))#  → []
+print(get_numbers_ticket(10, 4, 5))      #  → []
+print(get_numbers_ticket(10, 14, 6))     #  → []

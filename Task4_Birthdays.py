@@ -1,42 +1,38 @@
-#list of users with birthdays
+from datetime import datetime, date, timedelta
+from typing import List, Dict
+
+# Utility: move weekend birthdays to Monday
+def adjust_birthday_to_monday(birthday: date) -> date:
+    wd = birthday.weekday()  # 0=Mon ... 5=Sat, 6=Sun
+    if wd == 5:      # Saturday
+        return birthday + timedelta(days=2)
+    if wd == 6:      # Sunday
+        return birthday + timedelta(days=1)
+    return birthday
+
+# Utility: place passport birthday into a specific year (handle Feb 29)
+def place_birthday_in_year(birth: date, year: int) -> date:
+    try:
+        return birth.replace(year=year)
+    except ValueError:
+        if birth.month == 2 and birth.day == 29:
+            return date(year, 2, 28)  # policy: use Feb 28 in non-leap years
+        else:
+            raise
+
+# Sample data
 users = [
     {"name": "John Doe", "birthday": "1985.01.23"},
     {"name": "Jane Smith", "birthday": "1990.01.27"},
     {"name": "Test Testov", "birthday": "1990.10.11"}#added a test user
 ]
 
-
-
 #function to find upcoming birthdays within the next 7 days
 
-def get_upcoming_birthdays(users):
-    from datetime import datetime, date, timedelta
-
+def get_upcoming_birthdays(users: List[Dict[str, str]]) -> List[Dict[str, str]]:
     today = date.today()
     current_year = today.year
-    upcoming_birthdays = []
-   
-
-    def adjust_birthday_to_monday(birthday: date) -> date:
-        # weekday(): 0=Mon ... 5=Sat, 6=Sun
-        weekday = birthday.weekday()
-
-        if weekday == 5:      # saturday
-            return birthday + timedelta(days=2)
-        elif weekday == 6:    # sunday
-            return birthday + timedelta(days=1)
-        else:                 # rest days
-            return birthday
-        
-    #utility function to handle leap year birthdays    
-    def place_birthday_in_year(birth: date, year: int) -> date:
-        try:
-            return birth.replace(year=year)
-        except ValueError:
-            if birth.month == 2 and birth.day == 29:
-                return date(year, 2, 28)
-            else:
-                raise
+    upcoming_birthdays: List[Dict[str, str]] = []
     
     #work with each user
     for user in users:
