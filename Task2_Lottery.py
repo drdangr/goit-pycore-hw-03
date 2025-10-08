@@ -1,6 +1,6 @@
 import random
 
-def get_numbers_ticket(min, max, quantity):
+def get_numbers_ticket(min_value, max_value, quantity):
     
         
     # Перевірка типів даних
@@ -19,7 +19,7 @@ def get_numbers_ticket(min, max, quantity):
     if max_value > 1000:
         return []
    
-    numbers = random.sample(range(min, max + 1), quantity) 
+    numbers = random.sample(range(min_value, max_value + 1), quantity) 
     numbers.sort()
 
     return numbers
